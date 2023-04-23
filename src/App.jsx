@@ -1,7 +1,45 @@
+import { onAuthStateChanged } from "firebase/auth";
+import { useDispatch, useSelector } from "react-redux";
+import { login, logout, selectUser } from "./features/userSlice";
+import { auth } from "./lib/firebase";
+import { Route, Routes } from "react-router-dom";
+import Paths from "./Routes";
+import Login from "./pages/Login";
+import { useEffect } from "react";
+
 function App() {
+  const user = useSelector(selectUser);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const unsub = onAuthStateChanged(auth, (currentAuth) => {
+      if (currentAuth) {
+        dispatch(
+          login({
+            displayName: currentAuth.displayName,
+            email: currentAuth.email,
+            photoUrl: currentAuth.photoURL,
+          })
+        );
+      } else {
+        dispatch(logout());
+      }
+    });
+
+    return () => unsub();
+  }, []);
+
   return (
     <>
-      <div></div>
+      {user === null ? (
+        <Login />
+      ) : (
+        <Routes>
+          {Paths.map(({ path, component: Component }, index) => (
+            <Route path={path} key={index} element={<Component />} />
+          ))}
+        </Routes>
+      )}
     </>
   );
 }
