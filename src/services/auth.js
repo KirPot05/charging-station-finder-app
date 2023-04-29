@@ -6,7 +6,7 @@ import {
   updateEmail,
   updatePassword,
 } from "firebase/auth";
-import { auth, googleAuthProvider } from "../lib/firebase";
+import { auth, dbInstance, googleAuthProvider } from "../lib/firebase";
 import { addDoc, collection, getDocs, query } from "firebase/firestore";
 
 export async function signInWithGoogle() {
@@ -31,8 +31,25 @@ export async function signInWithGoogle() {
   }
 }
 
-export function signUp(email, password) {
-  return createUserWithEmailAndPassword(auth, email, password);
+export async function signUp(email, password, displayName) {
+  try {
+    const { user } = await createUserWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+
+    addDoc(collection(dbInstance, "users"), {
+      uid: user.uid,
+      name: displayName,
+      authProvider: "email",
+      email: user.email,
+    });
+
+    return user;
+  } catch (err) {
+    throw err;
+  }
 }
 
 export function login(email, password) {

@@ -6,6 +6,7 @@ import { Route, Routes } from "react-router-dom";
 import Paths from "./Routes";
 import Login from "./pages/Login";
 import { useEffect } from "react";
+import { Toaster } from "react-hot-toast";
 
 function App() {
   const user = useSelector(selectUser);
@@ -31,7 +32,10 @@ function App() {
 
   return (
     <>
-      {user === null ? (
+      <div>
+        <Toaster />
+      </div>
+      {user === null && window.location.pathname !== "/register" ? (
         <Login />
       ) : (
         <Routes>

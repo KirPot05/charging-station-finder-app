@@ -9,16 +9,17 @@ function Login() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const { login } = useAuth();
+  const { signUp } = useAuth();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     try {
-      const user = await login(email, password);
+      const user = await signUp(email, password, name);
 
       dispatch(
         saveUserCreds({
@@ -27,12 +28,13 @@ function Login() {
           // photoUrl: user.photoURL,
         })
       );
+
+      toast.success("User created successfully");
+      navigate("/");
     } catch (err) {
       console.error(err);
-      toast.error("User not found");
+      toast.error("Failed to create user!");
     }
-
-    navigate("/");
   };
 
   return (
@@ -44,6 +46,15 @@ function Login() {
         <h3 className="text-3xl font-semibold text-center">
           Welcome to Macula!
         </h3>
+
+        <input
+          type="text"
+          className="p-2 border rounded-md"
+          placeholder="Enter your name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
+
         <input
           type="text"
           className="p-2 border rounded-md"
@@ -63,7 +74,7 @@ function Login() {
           className="bg-[#0195FF] text-white p-2 rounded-lg"
         >
           {" "}
-          Login{" "}
+          Register{" "}
         </button>
       </form>
     </div>
