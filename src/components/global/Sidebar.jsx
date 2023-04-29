@@ -1,8 +1,19 @@
 import React from "react";
-import { mainLinks, secondaryLinks, utilLinks } from "../../mock/sidebarLinks";
+import { mainLinks } from "../../mock/sidebarLinks";
 import NavList from "./NavList";
+import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline";
+import { useAuth } from "../../hooks/auth";
+import { useNavigate } from "react-router-dom";
 
 function Sidebar({ link, setLink }) {
+  const { logOut } = useAuth();
+
+  const navigate = useNavigate();
+  const handleLogout = async () => {
+    await logOut();
+    navigate("/login");
+  };
+
   return (
     <div className="bg-white p-2 w-1/5 min-h-screen">
       {/* Header */}
@@ -27,17 +38,17 @@ function Sidebar({ link, setLink }) {
         setLink={setLink}
       />
 
-      {/* Secondary Section */}
-      <NavList
-        heading="SECONDARY"
-        links={secondaryLinks}
-        nestedLinks
-        link={link}
-        setLink={setLink}
-      />
-
-      {/* Utils Section */}
-      <NavList heading="" links={utilLinks} link={link} setLink={setLink} />
+      {/* Utils section */}
+      <h3 className="font-semibold text-gray-400 text-sm my-2"> Options </h3>
+      <div>
+        <button
+          className="flex items-center space-x-3 text-gray-500 rounded-lg font-semibold py-2 px-4 m-2 transition duration-150 hover:text-black hover:bg-gray-200 cursor-pointer"
+          onClick={handleLogout}
+        >
+          <ArrowTopRightOnSquareIcon className="w-5 h-5" />
+          <span> Sign out </span>
+        </button>
+      </div>
     </div>
   );
 }

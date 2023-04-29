@@ -75,9 +75,9 @@ export const utilLinks = [
   //     url: "/settings",
   //     icon: Cog8ToothIcon,
   //   },
-  {
-    title: "Log Out",
-    url: "/login",
-    icon: ArrowTopRightOnSquareIcon,
-  },
+  //   {
+  //     title: "Log Out",
+  //     url: "/login",
+  //     icon: ArrowTopRightOnSquareIcon,
+  //   },
 ];
