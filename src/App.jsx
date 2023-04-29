@@ -5,12 +5,17 @@ import { auth } from "./lib/firebase";
 import { Route, Routes } from "react-router-dom";
 import Paths from "./Routes";
 import Login from "./pages/Login";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Toaster } from "react-hot-toast";
+import Navbar from "./components/global/Navbar";
+import Sidebar from "./components/global/Sidebar";
 
 function App() {
   const user = useSelector(selectUser);
   const dispatch = useDispatch();
+
+  // for handling sidebar navigation
+  const [link, setLink] = useState(window.location.pathname);
 
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, (currentAuth) => {
@@ -38,11 +43,20 @@ function App() {
       {user === null && window.location.pathname !== "/register" ? (
         <Login />
       ) : (
-        <Routes>
-          {Paths.map(({ path, component: Component }, index) => (
-            <Route path={path} key={index} element={<Component />} />
-          ))}
-        </Routes>
+        <div className="flex">
+          {/* Sidebar with nav links*/}
+          <Sidebar link={link} setLink={setLink} />
+
+          {/* Routing Logic */}
+          <div className="flex-1">
+            <Navbar />
+            <Routes>
+              {Paths.map(({ path, component: Component }, index) => (
+                <Route path={path} key={index} element={<Component />} />
+              ))}
+            </Routes>
+          </div>
+        </div>
       )}
     </>
   );

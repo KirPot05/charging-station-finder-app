@@ -11,6 +11,7 @@
     "deploy": "./deploy.sh"
   },
   "dependencies": {
+    "@heroicons/react": "^2.0.17",
     "@reduxjs/toolkit": "^1.9.5",
     "firebase": "^9.20.0",
     "react": "^18.2.0",
