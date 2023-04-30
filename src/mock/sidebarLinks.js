@@ -1,6 +1,7 @@
 import {
   ArrowTopRightOnSquareIcon,
   BookOpenIcon,
+  CalendarDaysIcon,
   Cog8ToothIcon,
   DocumentIcon,
   FolderOpenIcon,
@@ -20,6 +21,11 @@ export const mainLinks = [
     icon: Square2StackIcon,
   },
 
+  {
+    title: "Bookings",
+    url: "/bookings",
+    icon: CalendarDaysIcon,
+  },
   //   {
   //     title: "Discover",
   //     url: "/discover",

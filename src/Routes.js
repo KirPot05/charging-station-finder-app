@@ -1,8 +1,10 @@
+import BookingPage from "./pages/BookingPage";
 import Bookings from "./pages/Bookings";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Profile from "./pages/Profile";
 import Register from "./pages/Register";
+
 const routes = [
   {
     path: "/",
@@ -21,7 +23,10 @@ const routes = [
     path: "/bookings",
     component: Bookings,
   },
-
+  {
+    path: "/bookings/:id",
+    component: BookingPage,
+  },
   {
     path: "/profile",
     component: Profile,
