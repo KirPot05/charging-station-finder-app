@@ -4,13 +4,17 @@ import NavList from "./NavList";
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline";
 import { useAuth } from "../../hooks/auth";
 import { useNavigate } from "react-router-dom";
+import { logout as removeUser } from "../../features/userSlice";
+import { useDispatch } from "react-redux";
 
 function Sidebar({ link, setLink }) {
   const { logOut } = useAuth();
+  const dispatch = useDispatch();
 
   const navigate = useNavigate();
   const handleLogout = async () => {
     await logOut();
+    dispatch(removeUser());
     navigate("/login");
   };
 
