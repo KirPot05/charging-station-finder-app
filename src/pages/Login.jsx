@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/auth";
 import toast from "react-hot-toast";
-import { useDispatch } from "react-redux";
-import { login as saveUserCreds } from "../features/userSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { login as saveUserCreds, selectUser } from "../features/userSlice";
 
 function Login() {
   const navigate = useNavigate();
@@ -11,6 +11,8 @@ function Login() {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const user = useSelector(selectUser);
 
   const { login } = useAuth();
 
@@ -34,6 +36,10 @@ function Login() {
       toast.error("User not found");
     }
   };
+
+  useEffect(() => {
+    if (user !== null) navigate("/");
+  }, []);
 
   return (
     <div className="w-full h-screen flex flex-col items-center justify-center shadow-md bg-cover bg-gray-400">
