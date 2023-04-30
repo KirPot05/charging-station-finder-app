@@ -15,7 +15,7 @@ function Sidebar({ link, setLink }) {
   const handleLogout = async () => {
     await logOut();
     dispatch(removeUser());
-    navigate("/login");
+    navigate("/");
   };
 
   return (
