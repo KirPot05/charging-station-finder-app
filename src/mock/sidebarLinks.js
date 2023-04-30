@@ -19,6 +19,7 @@ export const mainLinks = [
     url: "/",
     icon: Square2StackIcon,
   },
+
   //   {
   //     title: "Discover",
   //     url: "/discover",

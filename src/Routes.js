@@ -1,6 +1,7 @@
 import Bookings from "./pages/Bookings";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
+import Profile from "./pages/Profile";
 import Register from "./pages/Register";
 const routes = [
   {
@@ -19,6 +20,11 @@ const routes = [
   {
     path: "/bookings",
     component: Bookings,
+  },
+
+  {
+    path: "/profile",
+    component: Profile,
   },
 ];
 

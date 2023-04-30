@@ -5,6 +5,7 @@ import {
   BellIcon,
   ChevronDownIcon,
 } from "@heroicons/react/24/outline";
+import { Link } from "react-router-dom";
 
 function Navbar() {
   return (
@@ -21,7 +22,9 @@ function Navbar() {
 
       {/* Navbar options */}
       <div className="text-gray-500 flex items-center space-x-5">
-        <Cog8ToothIcon className="h-6 w-6 cursor-pointer" />
+        <Link to="/profile">
+          <Cog8ToothIcon className="h-6 w-6 cursor-pointer" />
+        </Link>
         <ChatBubbleBottomCenterIcon className="h-6 w-6 cursor-pointer" />
         <BellIcon className="h-6 w-6 cursor-pointer" />
         <div className="flex items-center space-x-2">
