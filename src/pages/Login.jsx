@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/auth";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
@@ -18,7 +18,7 @@ function Login() {
     event.preventDefault();
 
     try {
-      const user = await login(email, password);
+      const { user } = await login(email, password);
 
       dispatch(
         saveUserCreds({
@@ -27,12 +27,12 @@ function Login() {
           // photoUrl: user.photoURL,
         })
       );
+
+      navigate("/");
     } catch (err) {
       console.error(err);
       toast.error("User not found");
     }
-
-    navigate("/");
   };
 
   return (
@@ -66,6 +66,11 @@ function Login() {
           Login{" "}
         </button>
       </form>
+
+      <h3>
+        Don't have an account?{" "}
+        <button onClick={() => navigate("/register")}> Register </button>{" "}
+      </h3>
     </div>
   );
 }

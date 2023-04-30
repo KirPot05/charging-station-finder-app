@@ -2,9 +2,10 @@ import { onAuthStateChanged } from "firebase/auth";
 import { useDispatch, useSelector } from "react-redux";
 import { login, logout, selectUser } from "./features/userSlice";
 import { auth } from "./lib/firebase";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
 import Paths from "./Routes";
 import Login from "./pages/Login";
+import Register from "./pages/Register";
 import { useEffect, useState } from "react";
 import { Toaster } from "react-hot-toast";
 import Navbar from "./components/global/Navbar";
@@ -16,10 +17,11 @@ function App() {
 
   // for handling sidebar navigation
   const [link, setLink] = useState(window.location.pathname);
+  const location = useLocation();
 
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, (currentAuth) => {
-      if (currentAuth) {
+      if (currentAuth !== null) {
         dispatch(
           login({
             displayName: currentAuth.displayName,
@@ -40,20 +42,27 @@ function App() {
       <div>
         <Toaster />
       </div>
-      {user === null && window.location.pathname !== "/register" ? (
-        <Login />
+
+      {user === null ? (
+        location.pathname === "/register" ? (
+          <Register />
+        ) : (
+          <Login />
+        )
       ) : (
         <div className="flex">
           {/* Sidebar with nav links*/}
-          <Sidebar link={link} setLink={setLink} />
+          {user && <Sidebar link={link} setLink={setLink} />}
 
           {/* Routing Logic */}
           <div className="flex-1">
-            <Navbar />
+            {user && <Navbar />}
             <Routes>
-              {Paths.map(({ path, component: Component }, index) => (
-                <Route path={path} key={index} element={<Component />} />
-              ))}
+              {Paths.map(({ path, component: Component }, index) => {
+                return (
+                  <Route path={path} key={index} element={<Component />} />
+                );
+              })}
             </Routes>
           </div>
         </div>

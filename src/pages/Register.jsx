@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/auth";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
@@ -76,6 +76,10 @@ function Login() {
           {" "}
           Register{" "}
         </button>
+
+        <h3>
+          Already have an account? <Link to="/login"> Login </Link>{" "}
+        </h3>
       </form>
     </div>
   );
