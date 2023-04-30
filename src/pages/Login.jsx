@@ -30,6 +30,7 @@ function Login() {
         })
       );
 
+      toast.success("Logged in successfully");
       navigate("/");
     } catch (err) {
       console.error(err);
