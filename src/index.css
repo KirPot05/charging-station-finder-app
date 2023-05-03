@@ -11,3 +11,11 @@
         @apply text-white bg-primary
     }
 }
+
+.scrolling-wrapper {
+    -webkit-overflow-scrolling: touch;
+}
+
+.scrolling-wrapper::-webkit-scrollbar{
+    display: none;
+}

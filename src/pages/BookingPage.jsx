@@ -15,6 +15,7 @@ import {
   EnvelopeIcon as SolidEnvelope,
   PhoneIcon as SolidPhone,
 } from "@heroicons/react/24/solid";
+import DetailsItem from "../components/pages/bookings/DetailsItem";
 
 function BookingPage() {
   return (
@@ -43,25 +44,29 @@ function BookingPage() {
           </div>
 
           <div className="px-10 mt-6 space-y-3 font-semibold">
-            <div className="flex items-center gap-x-2">
-              <ArchiveBoxIcon className="h-4 w-4" />
-              Agency :
-            </div>
+            <DetailsItem
+              icon={ArchiveBoxIcon}
+              title="Agency"
+              value="Junot Paris"
+            />
 
-            <div className="flex items-center gap-x-2">
-              <PhoneIcon className="h-4 w-4" />
-              Telephone :
-            </div>
+            <DetailsItem
+              icon={PhoneIcon}
+              title="Telephone"
+              value="903 548 4583"
+            />
 
-            <div className="flex items-center gap-x-2">
-              <EnvelopeIcon className="h-4 w-4" />
-              Email :
-            </div>
+            <DetailsItem
+              icon={EnvelopeIcon}
+              title="Email"
+              value="test@email.com"
+            />
 
-            <div className="flex items-center gap-x-2">
-              <MapPinIcon className="h-4 w-4" />
-              Address :
-            </div>
+            <DetailsItem
+              icon={MapPinIcon}
+              title="Address"
+              value="Test address"
+            />
 
             {/* your contact */}
             <div className="grid grid-cols-4 gap-x-2 py-4 border-t-2 border-b-2">

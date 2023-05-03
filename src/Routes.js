@@ -1,3 +1,4 @@
+import BookingForm from "./pages/BookingForm";
 import BookingPage from "./pages/BookingPage";
 import Bookings from "./pages/Bookings";
 import Home from "./pages/Home";
@@ -22,6 +23,10 @@ const routes = [
   {
     path: "/bookings",
     component: Bookings,
+  },
+  {
+    path: "/bookings/new",
+    component: BookingForm,
   },
   {
     path: "/bookings/:id",
