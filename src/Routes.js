@@ -5,6 +5,8 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Profile from "./pages/Profile";
 import Register from "./pages/Register";
+import VehiclePage from "./pages/VehiclePage";
+import Vehicles from "./pages/Vehicles";
 
 const routes = [
   {
@@ -35,6 +37,14 @@ const routes = [
   {
     path: "/profile",
     component: Profile,
+  },
+  {
+    path: "/vehicles",
+    component: Vehicles,
+  },
+  {
+    path: "/vehicles/:id",
+    component: VehiclePage,
   },
 ];
 

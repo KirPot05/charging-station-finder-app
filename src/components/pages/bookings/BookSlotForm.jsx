@@ -1,6 +1,7 @@
 import { useState } from "react";
 import VehicleCard from "./VehicleCard";
 import SlotCard from "./SlotCard";
+import CustomButton from "../../global/CustomButton";
 
 function BookSlotForm({ stations }) {
   const [selectedVehicle, setSelectedVehicle] = useState(null);
@@ -76,12 +77,7 @@ function BookSlotForm({ stations }) {
         >
           Cancel
         </button>
-        <button
-          type="submit"
-          className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-        >
-          Book
-        </button>
+        <CustomButton btnText="Book" />
       </div>
     </form>
   );

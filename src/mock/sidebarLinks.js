@@ -1,17 +1,7 @@
 import {
-  ArrowTopRightOnSquareIcon,
-  BookOpenIcon,
   CalendarDaysIcon,
-  Cog8ToothIcon,
-  DocumentIcon,
-  FolderOpenIcon,
-  GlobeAltIcon,
-  InboxIcon,
-  ListBulletIcon,
-  QuestionMarkCircleIcon,
   Square2StackIcon,
-  Squares2X2Icon,
-  UsersIcon,
+  TruckIcon,
 } from "@heroicons/react/24/outline";
 
 export const mainLinks = [
@@ -25,6 +15,11 @@ export const mainLinks = [
     title: "Bookings",
     url: "/bookings",
     icon: CalendarDaysIcon,
+  },
+  {
+    title: "Vehicles",
+    url: "/vehicles",
+    icon: TruckIcon,
   },
   //   {
   //     title: "Discover",
