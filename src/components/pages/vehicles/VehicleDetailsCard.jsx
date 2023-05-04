@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 function VehicleDetailsCard({ vehicleId, model, company, imgUrl }) {
   return (
     <Link to={`/vehicles/${vehicleId}`}>
-      <div className="p-4 shadow-md rounded-md border-2 flex flex-col items-center">
+      <div className="p-4 hover:shadow-md rounded-md border-2 flex flex-col items-center">
         <img
           src={imgUrl}
           alt={model || ""}
