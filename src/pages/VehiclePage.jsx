@@ -17,7 +17,10 @@ function VehiclePage() {
   return (
     <main className="m-6 bg-white py-6 px-20 shadow-md">
       {/* <VehicleForm /> */}
-      <h1 className="font-semibold text-2xl my-8"> Tesla Electric X </h1>
+      <h1 className="font-semibold text-2xl my-8">
+        {" "}
+        {`${vehicle?.company} ${vehicle?.model}`}{" "}
+      </h1>
 
       <section className="px-10">
         {editPhoto ? (

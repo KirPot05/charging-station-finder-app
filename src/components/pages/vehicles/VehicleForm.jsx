@@ -41,7 +41,7 @@ function VehicleForm({ vehicle, id }) {
   useEffect(() => {
     dispatch({
       type: "REFRESH_DATA",
-      payload: vehicle,
+      payload: { ...vehicle, id },
     });
   }, [vehicle]);
 
@@ -65,6 +65,10 @@ function VehicleForm({ vehicle, id }) {
     event.preventDefault();
     try {
       await updateVehicle(state);
+
+      toast.success("Successfully updated fields");
+      setEditGeneralDetails(false);
+      setEditRegistrationDetails(false);
     } catch (error) {
       toast.error(error?.message || "Error updating fields");
     }
@@ -141,14 +145,14 @@ function VehicleForm({ vehicle, id }) {
 
         <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
           <DynamicInput
-            id="registration-num"
+            id="registrationNumber"
             label="Registration Number"
             value={state?.registrationNumber}
             setValue={handleInput}
             isEditable={editRegistrationDetails}
           />
           <DynamicInput
-            id="expiry"
+            id="registrationExpiry"
             label="Registration Expiry"
             value={state?.registrationExpiry}
             setValue={handleInput}
@@ -174,7 +178,7 @@ function VehicleForm({ vehicle, id }) {
         </button>
         <CustomButton
           btnText="Update"
-          isDisabled={!editGeneralDetails || !editRegistrationDetails}
+          isDisabled={!(editGeneralDetails || editRegistrationDetails)}
         />
       </div>
     </form>
