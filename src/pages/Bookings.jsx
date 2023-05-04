@@ -1,10 +1,32 @@
-import React from "react";
 import CustomTab from "../components/global/CustomTab";
 import BookingsList from "../components/pages/bookings/BookingsList";
 import { Link } from "react-router-dom";
 import { PlusIcon } from "@heroicons/react/24/solid";
+import { useEffect, useState } from "react";
+import { useCollectionOnce } from "react-firebase-hooks/firestore";
+import { collection, query } from "firebase/firestore";
+import { dbInstance } from "../lib/firebase";
 
 function Bookings() {
+  const [bookings, setBookings] = useState([]);
+  const [value, loading, error] = useCollectionOnce(
+    query(collection(dbInstance, "bookings"))
+  );
+
+  useEffect(() => {
+    if (value?.docs?.length > 0) {
+      const items = [];
+      value.docs.forEach((val) => {
+        if (val.exists()) items.push({ bookingId: val.id, ...val.data() });
+      });
+
+      setBookings(items);
+    }
+  }, [value]);
+
+  if (error) return <div>{JSON.stringify(error)}</div>;
+  if (loading) return <div>Loading...</div>;
+
   return (
     <main className="m-6 bg-white p-6 shadow-md">
       <div className="flex items-center justify-between">
@@ -27,7 +49,7 @@ function Bookings() {
           </button>
         </Link>
       </div>
-      <BookingsList />
+      {bookings && <BookingsList bookings={bookings} />}
     </main>
   );
 }

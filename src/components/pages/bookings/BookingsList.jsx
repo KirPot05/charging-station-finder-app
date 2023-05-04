@@ -4,8 +4,12 @@ import BookingItem from "./BookingItem";
 function BookingsList({ bookings }) {
   return (
     <section className="mt-8">
-      {Array.from({ length: 5 }).map((_, idx) => (
-        <BookingItem id={idx} />
+      {bookings.map((booking, idx) => (
+        <BookingItem
+          id={booking?.bookingId}
+          key={booking?.bookingId}
+          booking={booking}
+        />
       ))}
     </section>
   );

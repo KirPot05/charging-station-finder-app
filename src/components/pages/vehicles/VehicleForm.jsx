@@ -2,6 +2,8 @@ import { useEffect, useReducer, useState } from "react";
 import DynamicInput from "../../global/DynamicInput";
 import FormEditButton from "../../global/FormEditButton";
 import CustomButton from "../../global/CustomButton";
+import { toast } from "react-hot-toast";
+import { updateVehicle } from "../../../services/vehicles";
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -19,7 +21,7 @@ const reducer = (state, action) => {
   }
 };
 
-function VehicleForm({ vehicle }) {
+function VehicleForm({ vehicle, id }) {
   const initialState = {
     company: vehicle?.company,
     model: vehicle?.model,
@@ -29,6 +31,7 @@ function VehicleForm({ vehicle }) {
     registrationExpiry: vehicle?.registrationExpiry,
     owner: vehicle?.owner,
     imgUrl: vehicle?.imgUrl,
+    id,
   };
 
   const [editGeneralDetails, setEditGeneralDetails] = useState(false);
@@ -58,8 +61,13 @@ function VehicleForm({ vehicle }) {
     setEditRegistrationDetails(false);
   };
 
-  const handleUpdateFields = (event) => {
+  const handleUpdateFields = async (event) => {
     event.preventDefault();
+    try {
+      await updateVehicle(state);
+    } catch (error) {
+      toast.error(error?.message || "Error updating fields");
+    }
   };
 
   const handleInput = (event) => {
@@ -71,7 +79,7 @@ function VehicleForm({ vehicle }) {
   };
 
   return (
-    <form>
+    <form onSubmit={handleUpdateFields}>
       <div className="border-b border-gray-900/10 pb-12">
         <div className="flex items-center justify-between">
           <h2 className="text-base font-semibold leading-7 text-gray-900">
@@ -166,8 +174,7 @@ function VehicleForm({ vehicle }) {
         </button>
         <CustomButton
           btnText="Update"
-          isDisabled={editGeneralDetails || editRegistrationDetails}
-          handleAction={handleUpdateFields}
+          isDisabled={!editGeneralDetails || !editRegistrationDetails}
         />
       </div>
     </form>

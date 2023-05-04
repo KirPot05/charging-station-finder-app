@@ -22,3 +22,16 @@ export async function addVehicle(data) {
     throw error;
   }
 }
+
+export async function updateVehicle(vehicle) {
+  try {
+    const vehicleDocRef = doc(dbInstance, "vehicles", vehicle?.id);
+
+    await updateDoc(vehicleDocRef, {
+      ...vehicle,
+      updatedAt: serverTimestamp(),
+    });
+  } catch (error) {
+    throw error;
+  }
+}

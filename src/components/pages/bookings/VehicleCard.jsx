@@ -1,15 +1,15 @@
 import { CheckCircleIcon } from "@heroicons/react/24/solid";
 
-function VehicleCard({ imgSrc, selectedVehicle, id, setSelectedVehicle }) {
+function VehicleCard({ vehicle, selectedVehicle, id, setSelectedVehicle }) {
   const handleSelection = () => {
     setSelectedVehicle(id);
   };
 
   return (
     <div
-      className={`p-4 border-[3px] ${
+      className={`p-4 flex flex-col items-center border-[3px] ${
         id === selectedVehicle && "border-indigo-500"
-      } rounded-md w-full min-w-[12rem] cursor-pointer relative space-y-5`}
+      } rounded-md w-full min-w-[12rem] cursor-pointer relative space-y-5 max-w-sm`}
       onClick={handleSelection}
     >
       <CheckCircleIcon
@@ -20,7 +20,7 @@ function VehicleCard({ imgSrc, selectedVehicle, id, setSelectedVehicle }) {
 
       <img
         src={
-          imgSrc ||
+          vehicle?.imgUrl ||
           "https://images.91wheels.com//assets/b_images/main/ather/450/ather-450-1590750894.png"
         }
         alt=""
@@ -32,7 +32,7 @@ function VehicleCard({ imgSrc, selectedVehicle, id, setSelectedVehicle }) {
           id === selectedVehicle && "text-indigo-500"
         } `}
       >
-        Some Nickname
+        {`${vehicle?.company} ${vehicle?.model}`}
       </p>
     </div>
   );

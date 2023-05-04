@@ -1,11 +1,4 @@
-import {
-  signInWithGoogle,
-  logOut,
-  login,
-  signUp,
-  emailUpdate,
-  passswordUpdate,
-} from "../services/auth";
+import { signInWithGoogle, logOut, login, signUp } from "../services/auth";
 
 export function useAuth() {
   return {
@@ -13,7 +6,5 @@ export function useAuth() {
     logOut,
     login,
     signUp,
-    emailUpdate,
-    passswordUpdate,
   };
 }

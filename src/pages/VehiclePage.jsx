@@ -2,6 +2,7 @@ import { useState } from "react";
 import VehicleForm from "../components/pages/vehicles/VehicleForm";
 import { useVehicles } from "../hooks/vehicle";
 import { useParams } from "react-router-dom";
+import { PhotoIcon } from "@heroicons/react/24/outline";
 
 function VehiclePage() {
   const [editPhoto, setEditPhoto] = useState(false);
@@ -62,7 +63,7 @@ function VehiclePage() {
 
         <hr className="border my-8" />
 
-        <VehicleForm vehicle={vehicle} />
+        <VehicleForm vehicle={vehicle} id={id} />
       </section>
     </main>
   );
