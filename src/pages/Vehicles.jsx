@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import EmptyCaseContainer from "../components/global/EmptyCaseContainer";
-import VehicleCard from "../components/pages/bookings/VehicleCard";
 import VehicleDetailsCard from "../components/pages/vehicles/VehicleDetailsCard";
+import { PlusIcon } from "@heroicons/react/24/solid";
+import { Link } from "react-router-dom";
 
 function Vehicles() {
   const [vehicles, setVehicles] = useState([
@@ -57,7 +58,17 @@ function Vehicles() {
 
   return vehicles.length > 0 ? (
     <main className="m-6 bg-white py-6 px-20 shadow-md">
-      <h1 className="font-semibold text-4xl my-4"> Your vehicles </h1>
+      <div className="flex items-center justify-between">
+        <h1 className="font-semibold text-4xl my-4"> Your vehicles </h1>
+
+        <Link to="/vehicles/new">
+          <button className="px-4 py-2 bg-primary text-white rounded shadow-md flex items-center gap-x-2">
+            {" "}
+            <PlusIcon className="h-5 w-5 font-bold" />
+            Add vehicle{" "}
+          </button>
+        </Link>
+      </div>
 
       <section className="grid grid-cols-3 gap-6 mt-8">
         {vehicles.map(({ VIN, model, company, imgUrl }) => (

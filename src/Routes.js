@@ -5,6 +5,7 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Profile from "./pages/Profile";
 import Register from "./pages/Register";
+import VehicleAddPage from "./pages/VehicleAddPage";
 import VehiclePage from "./pages/VehiclePage";
 import Vehicles from "./pages/Vehicles";
 
@@ -41,6 +42,10 @@ const routes = [
   {
     path: "/vehicles",
     component: Vehicles,
+  },
+  {
+    path: "/vehicles/new",
+    component: VehicleAddPage,
   },
   {
     path: "/vehicles/:id",
