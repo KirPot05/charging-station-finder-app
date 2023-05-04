@@ -7,7 +7,13 @@ import {
   updatePassword,
 } from "firebase/auth";
 import { auth, dbInstance, googleAuthProvider } from "../lib/firebase";
-import { addDoc, collection, getDocs, query } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  getDocs,
+  query,
+  serverTimestamp,
+} from "firebase/firestore";
 
 export async function signInWithGoogle() {
   try {
@@ -44,6 +50,8 @@ export async function signUp(email, password, displayName) {
       name: displayName,
       authProvider: "email",
       email: user.email,
+      createdAt: serverTimestamp(),
+      updatedAt: serverTimestamp(),
     });
 
     return user;

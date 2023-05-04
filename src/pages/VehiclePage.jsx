@@ -1,23 +1,21 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import VehicleForm from "../components/pages/vehicles/VehicleForm";
-
-function VehicleProperty({ property, value }) {
-  return (
-    <p className="text-sm">
-      {" "}
-      <span className="text-gray-400">{property}: </span>{" "}
-      <span className="font-semibold">{value}</span>
-    </p>
-  );
-}
+import { useVehicles } from "../hooks/vehicle";
+import { useParams } from "react-router-dom";
 
 function VehiclePage() {
   const [editPhoto, setEditPhoto] = useState(false);
 
+  const { id } = useParams();
+
+  const [vehicle, loading, error] = useVehicles(id);
+
+  if (error) return <div>{JSON.stringify(error)}</div>;
+  if (loading) return <div>Loading...</div>;
+
   return (
     <main className="m-6 bg-white py-6 px-20 shadow-md">
       {/* <VehicleForm /> */}
-
       <h1 className="font-semibold text-2xl my-8"> Tesla Electric X </h1>
 
       <section className="px-10">
@@ -58,17 +56,13 @@ function VehiclePage() {
           </div>
         ) : (
           <div className="flex items-center justify-center">
-            <img
-              src="https://images.hindustantimes.com/auto/img/2021/06/15/600x338/WhatsApp_Image_2021-02-10_at_15.31.09_1615966496207_1618140882750_1623760189517.jpg"
-              alt=""
-              className="rounded"
-            />
+            <img src={vehicle?.imgUrl} alt="" className="rounded" />
           </div>
         )}
 
         <hr className="border my-8" />
 
-        <VehicleForm />
+        <VehicleForm vehicle={vehicle} />
       </section>
     </main>
   );

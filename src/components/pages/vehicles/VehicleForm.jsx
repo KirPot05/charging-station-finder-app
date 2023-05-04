@@ -1,11 +1,46 @@
-import { useState } from "react";
+import { useEffect, useReducer, useState } from "react";
 import DynamicInput from "../../global/DynamicInput";
 import FormEditButton from "../../global/FormEditButton";
 import CustomButton from "../../global/CustomButton";
 
-function VehicleForm() {
+const reducer = (state, action) => {
+  switch (action.type) {
+    case "HANDLE_TEXT_INPUT":
+      return {
+        ...state,
+        [action.field]: action.payload,
+      };
+
+    case "REFRESH_DATA":
+      return action.payload;
+
+    default:
+      return state;
+  }
+};
+
+function VehicleForm({ vehicle }) {
+  const initialState = {
+    company: vehicle?.company,
+    model: vehicle?.model,
+    VIN: vehicle?.VIN,
+    color: vehicle?.color,
+    registrationNumber: vehicle?.registrationNumber,
+    registrationExpiry: vehicle?.registrationExpiry,
+    owner: vehicle?.owner,
+    imgUrl: vehicle?.imgUrl,
+  };
+
   const [editGeneralDetails, setEditGeneralDetails] = useState(false);
   const [editRegistrationDetails, setEditRegistrationDetails] = useState(false);
+  const [state, dispatch] = useReducer(reducer, initialState);
+
+  useEffect(() => {
+    dispatch({
+      type: "REFRESH_DATA",
+      payload: vehicle,
+    });
+  }, [vehicle]);
 
   const handleEditGeneralDetails = (event) => {
     event.preventDefault();
@@ -27,6 +62,14 @@ function VehicleForm() {
     event.preventDefault();
   };
 
+  const handleInput = (event) => {
+    dispatch({
+      type: "HANDLE_TEXT_INPUT",
+      field: event.target.name,
+      payload: event.target.value,
+    });
+  };
+
   return (
     <form>
       <div className="border-b border-gray-900/10 pb-12">
@@ -45,20 +88,32 @@ function VehicleForm() {
           <DynamicInput
             id="company"
             label="Company"
+            value={state?.company}
+            setValue={handleInput}
             isEditable={editGeneralDetails}
           />
 
           <DynamicInput
             id="model"
             label="Model"
+            value={state?.model}
+            setValue={handleInput}
             isEditable={editGeneralDetails}
           />
 
-          <DynamicInput id="vin" label="VIN" isEditable={editGeneralDetails} />
+          <DynamicInput
+            id="vin"
+            label="VIN"
+            isEditable={editGeneralDetails}
+            value={state?.VIN}
+            setValue={handleInput}
+          />
 
           <DynamicInput
             id="color"
             label="Color"
+            value={state?.color}
+            setValue={handleInput}
             isEditable={editGeneralDetails}
           />
         </div>
@@ -80,16 +135,22 @@ function VehicleForm() {
           <DynamicInput
             id="registration-num"
             label="Registration Number"
+            value={state?.registrationNumber}
+            setValue={handleInput}
             isEditable={editRegistrationDetails}
           />
           <DynamicInput
             id="expiry"
             label="Registration Expiry"
+            value={state?.registrationExpiry}
+            setValue={handleInput}
             isEditable={editRegistrationDetails}
           />
           <DynamicInput
             id="owner"
             label="Owner"
+            value={state?.owner}
+            setValue={handleInput}
             isEditable={editRegistrationDetails}
           />
         </div>
@@ -105,7 +166,7 @@ function VehicleForm() {
         </button>
         <CustomButton
           btnText="Update"
-          isDisabled={!editGeneralDetails || !editRegistrationDetails}
+          isDisabled={editGeneralDetails || editRegistrationDetails}
           handleAction={handleUpdateFields}
         />
       </div>
