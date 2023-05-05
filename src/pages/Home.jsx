@@ -53,7 +53,7 @@ function Home() {
 
           <img
             src={primaryVehicle?.imgUrl}
-            className="h-72 bg-contain"
+            className="h-72 bg-contain rounded"
             alt=""
           />
         </div>
