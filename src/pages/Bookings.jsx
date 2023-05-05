@@ -11,6 +11,7 @@ import { selectUser } from "../features/userSlice";
 
 function Bookings() {
   const user = useSelector(selectUser);
+  console.log(user);
   const [bookings, setBookings] = useState([]);
   const [value, loading, error] = useCollectionOnce(
     query(
