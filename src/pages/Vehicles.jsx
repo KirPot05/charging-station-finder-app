@@ -3,9 +3,11 @@ import VehicleDetailsCard from "../components/pages/vehicles/VehicleDetailsCard"
 import { PlusIcon } from "@heroicons/react/24/solid";
 import { Link } from "react-router-dom";
 import { useCollectionOnce } from "react-firebase-hooks/firestore";
-import { collection, query } from "firebase/firestore";
+import { collection, query, where } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { dbInstance } from "../lib/firebase";
+import { useSelector } from "react-redux";
+import { selectUser } from "../features/userSlice";
 
 function Vehicles() {
   // const [vehicles, setVehicles] = useState([
@@ -59,9 +61,13 @@ function Vehicles() {
   //   },
   // ]);
 
+  const user = useSelector(selectUser);
   const [vehicles, setVehicles] = useState([]);
   const [value, loading, error] = useCollectionOnce(
-    query(collection(dbInstance, "vehicles"))
+    query(
+      collection(dbInstance, "vehicles"),
+      where("userId", "==", user?.userId)
+    )
   );
 
   useEffect(() => {
