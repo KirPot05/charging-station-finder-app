@@ -1,13 +1,14 @@
-import { doc } from "firebase/firestore";
+import { doc, query, where } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { useDocumentDataOnce } from "react-firebase-hooks/firestore";
 import { dbInstance } from "../lib/firebase";
 
-export function useVehicles(vehicleId) {
+export function useVehicles(vehicleId, userId) {
   const [vehicle, setVehicle] = useState(null);
 
   const [value, loading, error] = useDocumentDataOnce(
-    doc(dbInstance, "vehicles", vehicleId)
+    query(doc(dbInstance, "vehicles", vehicleId), where("userId", "==", userId))
+    // doc(dbInstance, "vehicles", vehicleId)
   );
 
   useEffect(() => {

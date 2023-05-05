@@ -3,13 +3,16 @@ import VehicleForm from "../components/pages/vehicles/VehicleForm";
 import { useVehicles } from "../hooks/vehicle";
 import { useParams } from "react-router-dom";
 import { PhotoIcon } from "@heroicons/react/24/outline";
+import { useSelector } from "react-redux";
+import { selectUser } from "../features/userSlice";
 
 function VehiclePage() {
+  const user = useSelector(selectUser);
   const [editPhoto, setEditPhoto] = useState(false);
 
   const { id } = useParams();
 
-  const [vehicle, loading, error] = useVehicles(id);
+  const [vehicle, loading, error] = useVehicles(id, user?.userId);
 
   if (error) return <div>{JSON.stringify(error)}</div>;
   if (loading) return <div>Loading...</div>;

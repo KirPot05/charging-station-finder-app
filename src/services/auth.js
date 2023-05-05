@@ -52,6 +52,7 @@ export async function signUp(email, password, displayName) {
       name: displayName,
       authProvider: "email",
       email: user.email,
+      role: "user",
       createdAt: serverTimestamp(),
       updatedAt: serverTimestamp(),
     });

@@ -4,11 +4,13 @@ import SlotCard from "./SlotCard";
 import CustomButton from "../../global/CustomButton";
 import stations from "../../../mock/station";
 import { useCollectionOnce } from "react-firebase-hooks/firestore";
-import { collection, query } from "firebase/firestore";
+import { collection, query, where } from "firebase/firestore";
 import { dbInstance } from "../../../lib/firebase";
 import { toast } from "react-hot-toast";
 import { bookSlot } from "../../../services/bookings";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { selectUser } from "../../../features/userSlice";
 
 const initialState = {
   vehicleId: "",
@@ -28,7 +30,9 @@ const reducer = (state, action) => {
 };
 
 function BookSlotForm() {
+  const user = useSelector(selectUser);
   const [booking, dispatch] = useReducer(reducer, initialState);
+
   const [selectedVehicle, setSelectedVehicle] = useState(null);
   const [selectedSlotId, setSelectedSlotId] = useState([]);
   const [selectedStation, setSelectedStation] = useState(0);
@@ -37,7 +41,10 @@ function BookSlotForm() {
 
   const [vehicles, setVehicles] = useState([]);
   const [value, loading, error] = useCollectionOnce(
-    query(collection(dbInstance, "vehicles"))
+    query(
+      collection(dbInstance, "vehicles"),
+      where("userId", "==", user?.userId)
+    )
   );
 
   useEffect(() => {
@@ -59,6 +66,7 @@ function BookSlotForm() {
         station: stations[selectedStation].location,
         slot: stations[selectedStation].slots[selectedSlotId],
         vehicleId: selectedVehicle,
+        userId: user?.userId,
       });
 
       toast.success("Successfully booked slot");

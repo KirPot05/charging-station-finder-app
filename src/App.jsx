@@ -27,6 +27,7 @@ function App() {
             displayName: currentAuth.displayName,
             email: currentAuth.email,
             photoUrl: currentAuth.photoURL,
+            userId: currentAuth.uid,
           })
         );
       } else {

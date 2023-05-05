@@ -4,13 +4,19 @@ import { Link } from "react-router-dom";
 import { PlusIcon } from "@heroicons/react/24/solid";
 import { useEffect, useState } from "react";
 import { useCollectionOnce } from "react-firebase-hooks/firestore";
-import { collection, query } from "firebase/firestore";
+import { collection, query, where } from "firebase/firestore";
 import { dbInstance } from "../lib/firebase";
+import { useSelector } from "react-redux";
+import { selectUser } from "../features/userSlice";
 
 function Bookings() {
+  const user = useSelector(selectUser);
   const [bookings, setBookings] = useState([]);
   const [value, loading, error] = useCollectionOnce(
-    query(collection(dbInstance, "bookings"))
+    query(
+      collection(dbInstance, "bookings"),
+      where("userId", "==", user?.userId)
+    )
   );
 
   useEffect(() => {

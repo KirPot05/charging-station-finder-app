@@ -7,6 +7,8 @@ import { toast } from "react-hot-toast";
 import { handleImageUpload } from "../../../services";
 import { addVehicle } from "../../../services/vehicles";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { selectUser } from "../../../features/userSlice";
 
 const initialState = {
   company: "",
@@ -30,6 +32,8 @@ const reducer = (state, action) => {
 };
 
 function AddVehicleForm() {
+  const user = useSelector(selectUser);
+
   const [vehicle, dispatch] = useReducer(reducer, initialState);
   const [vehicleImg, setVehicleImg] = useState(null);
   const [imgUrl, setImgUrl] = useState("");
@@ -40,7 +44,10 @@ function AddVehicleForm() {
   const handleSubmitForm = async (event) => {
     event.preventDefault();
     try {
-      const addedVehicleId = await addVehicle(vehicle);
+      const addedVehicleId = await addVehicle({
+        ...vehicle,
+        userId: user?.userId,
+      });
       toast.success("Vehicle Added Successfully");
 
       navigate(`/vehicles/${addedVehicleId}`);
