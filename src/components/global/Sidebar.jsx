@@ -1,5 +1,5 @@
 import React from "react";
-import { mainLinks } from "../../mock/sidebarLinks";
+import { mainLinks, secondaryLinks } from "../../mock/sidebarLinks";
 import NavList from "./NavList";
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline";
 import { useAuth } from "../../hooks/auth";
@@ -37,6 +37,14 @@ function Sidebar({ link, setLink }) {
       <NavList
         heading="MAIN"
         links={mainLinks}
+        nestedLinks
+        link={link}
+        setLink={setLink}
+      />
+
+      <NavList
+        heading="Quick Links"
+        links={secondaryLinks}
         nestedLinks
         link={link}
         setLink={setLink}

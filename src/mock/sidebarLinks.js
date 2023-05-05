@@ -1,5 +1,6 @@
 import {
   CalendarDaysIcon,
+  PlusCircleIcon,
   Square2StackIcon,
   TruckIcon,
 } from "@heroicons/react/24/outline";
@@ -49,16 +50,16 @@ export const mainLinks = [
 ];
 
 export const secondaryLinks = [
-  //   {
-  //     title: "Support Center",
-  //     url: "/support",
-  //     icon: QuestionMarkCircleIcon,
-  //   },
-  //   {
-  //     title: "Inbox",
-  //     url: "/inbox",
-  //     icon: InboxIcon,
-  //   },
+  {
+    title: "Book a slot",
+    url: "/bookings/new",
+    icon: PlusCircleIcon,
+  },
+  {
+    title: "Add vehicle",
+    url: "/vehicles/new",
+    icon: PlusCircleIcon,
+  },
   //   {
   //     title: "File Manager",
   //     url: "/files",
