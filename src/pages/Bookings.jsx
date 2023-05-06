@@ -49,10 +49,26 @@ function Bookings() {
           <h1 className="text-4xl font-semibold"> Bookings </h1>
 
           <div className="flex items-center gap-x-4 font-semibold text-gray-500 mt-4">
-            <CustomTab title="All" />
-            <CustomTab title="Completed" />
-            <CustomTab title="Cancelled" />
-            <CustomTab title="Postponed" />
+            <CustomTab
+              title="All"
+              filter=""
+              filterAction={handleFilterBookings}
+            />
+            <CustomTab
+              title="Completed"
+              filter="completed"
+              filterAction={handleFilterBookings}
+            />
+            <CustomTab
+              title="Cancelled"
+              filter="cancelled"
+              filterAction={handleFilterBookings}
+            />
+            <CustomTab
+              title="Postponed"
+              filter="postponed"
+              filterAction={handleFilterBookings}
+            />
           </div>
         </div>
         {/* Create new booking */}

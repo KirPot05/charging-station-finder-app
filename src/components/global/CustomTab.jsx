@@ -1,8 +1,11 @@
 import React from "react";
 
-function CustomTab({ title }) {
+function CustomTab({ title, filterAction, filter }) {
   return (
-    <button className="border-b-[3px] border-transparent focus:text-primary focus:border-b-primary">
+    <button
+      onClick={() => filterAction(filter)}
+      className="border-b-[3px] border-transparent focus:text-primary focus:border-b-primary"
+    >
       {title}
     </button>
   );
