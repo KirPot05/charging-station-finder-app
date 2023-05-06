@@ -18,7 +18,7 @@ function SlotCard({
     if (typeof slots === "object" && Object.keys(slots).length > 0) {
       setNotAllowedSlot(Object.values(slots)[slotId] < 15);
     }
-  }, []);
+  }, [slots]);
 
   return (
     <div

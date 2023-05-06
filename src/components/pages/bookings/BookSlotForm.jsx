@@ -65,7 +65,7 @@ function BookSlotForm() {
 
   useEffect(() => {
     if (snapshot?.length > 0) {
-      setSlots(() => snapshot.map((snap) => snap.val()));
+      setSlots(snapshot.map((snap) => snap.val()));
     }
   }, [snapshot]);
 
