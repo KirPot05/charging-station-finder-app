@@ -11,7 +11,6 @@ import { selectUser } from "../features/userSlice";
 
 function Bookings() {
   const user = useSelector(selectUser);
-  console.log(user);
   const [bookings, setBookings] = useState([]);
   const [value, loading, error] = useCollectionOnce(
     query(
@@ -30,6 +29,15 @@ function Bookings() {
       setBookings(items);
     }
   }, [value]);
+
+  const handleFilterBookings = (filter = "") => {
+    if (value?.docs?.length === 0) return;
+    const filteredBookings = [];
+    value.docs.forEach((val) => {
+      if (val.exists() && val.data().status === filter)
+        filteredBookings.push({ bookingId: val.id, ...val.data() });
+    });
+  };
 
   if (error) return <div>{JSON.stringify(error)}</div>;
   if (loading) return <div>Loading...</div>;
