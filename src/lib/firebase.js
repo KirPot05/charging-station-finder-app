@@ -10,6 +10,7 @@ import {
 import { getFirestore } from "firebase/firestore";
 import { getAuth, GoogleAuthProvider } from "firebase/auth";
 import { getStorage } from "firebase/storage";
+import { getDatabase } from "firebase/database";
 
 const firebaseConfig = {
   apiKey: FIREBASE_API_KEY,
@@ -26,6 +27,11 @@ const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 
 export const dbInstance = getFirestore(app);
+
+export const realtimeDBInstance = getDatabase(
+  app,
+  "https://charging-station-finder-e9129-default-rtdb.asia-southeast1.firebasedatabase.app/"
+);
 
 export const storageInstance = getStorage(app);
 

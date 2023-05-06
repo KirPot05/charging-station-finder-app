@@ -5,12 +5,14 @@ import CustomButton from "../../global/CustomButton";
 import stations from "../../../mock/station";
 import { useCollectionOnce } from "react-firebase-hooks/firestore";
 import { collection, query, where } from "firebase/firestore";
-import { dbInstance } from "../../../lib/firebase";
+import { dbInstance, realtimeDBInstance } from "../../../lib/firebase";
 import { toast } from "react-hot-toast";
 import { bookSlot } from "../../../services/bookings";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { selectUser } from "../../../features/userSlice";
+import { useList } from "react-firebase-hooks/database";
+import { ref } from "firebase/database";
 
 const initialState = {
   vehicleId: "",
@@ -34,18 +36,21 @@ function BookSlotForm() {
   const [booking, dispatch] = useReducer(reducer, initialState);
 
   const [selectedVehicle, setSelectedVehicle] = useState(null);
-  const [selectedSlotId, setSelectedSlotId] = useState([]);
+  const [selectedSlotId, setSelectedSlotId] = useState();
   const [selectedStation, setSelectedStation] = useState(0);
 
   const navigate = useNavigate();
 
   const [vehicles, setVehicles] = useState([]);
+  const [slots, setSlots] = useState([]);
   const [value, loading, error] = useCollectionOnce(
     query(
       collection(dbInstance, "vehicles"),
       where("userId", "==", user?.userId)
     )
   );
+
+  const [snapshot, loadingRTDB, errorRTDB] = useList(ref(realtimeDBInstance));
 
   useEffect(() => {
     if (value?.docs?.length > 0) {
@@ -57,6 +62,12 @@ function BookSlotForm() {
       setVehicles(items);
     }
   }, [value]);
+
+  useEffect(() => {
+    if (snapshot?.length > 0) {
+      setSlots(() => snapshot.map((snap) => snap.val()));
+    }
+  }, [snapshot]);
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
@@ -84,8 +95,8 @@ function BookSlotForm() {
     });
   };
 
-  if (error) return <div>{JSON.stringify(error)}</div>;
-  if (loading) return <div>Loading...</div>;
+  if (error || errorRTDB) return <div>{JSON.stringify(error)}</div>;
+  if (loading || loadingRTDB) return <div>Loading...</div>;
 
   return (
     <form onSubmit={handleFormSubmit}>
@@ -136,7 +147,7 @@ function BookSlotForm() {
                 {/* <option>TilakWadi</option>
                 <option>Bogarves</option> */}
                 {stations.map(({ location }) => (
-                  <option key={location}> {location} </option>
+                  <option key={location + Math.random()}> {location} </option>
                 ))}
               </select>
             </div>
@@ -178,8 +189,27 @@ function BookSlotForm() {
                   key={idx + 1}
                   selectedSlotId={selectedSlotId}
                   setSelectedSlotId={setSelectedSlotId}
+                  slots={slots[selectedStation]}
+                  isVehicleSelected={selectedVehicle !== null}
                 />
               ))}
+
+              <div className="col-span-full flex items-center gap-x-8 mt-2 px-2">
+                <div className="flex items-center gap-x-2">
+                  <div className="w-4 h-4 bg-gray-400"></div>
+                  <span className="text-sm">Not available</span>
+                </div>
+
+                <div className="flex items-center gap-x-2">
+                  <div className="w-4 h-4 border-gray-400 border"></div>
+                  <span className="text-sm">Available</span>
+                </div>
+
+                <div className="flex items-center gap-x-2">
+                  <div className="w-4 h-4 bg-indigo-500 border"></div>
+                  <span className="text-sm">Selected</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
