@@ -79,7 +79,7 @@ function Home() {
                 location={location}
                 name={name}
                 slotsAvailable={slotsAvailable}
-                key={location}
+                key={location + Math.random()}
                 imgUrl={imgUrl}
                 googleMapLink={googleMapLink}
                 active={active}
