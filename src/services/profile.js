@@ -1,23 +1,13 @@
-import {
-  collection,
-  query,
-  serverTimestamp,
-  updateDoc,
-  where,
-} from "firebase/firestore";
+import { doc, serverTimestamp, updateDoc, where } from "firebase/firestore";
 import { dbInstance } from "../lib/firebase";
 
-export async function updateUserProfile(profile) {
+export async function updateUserProfile(profile, profileId) {
   try {
-    if (profile?.email === undefined || profile?.email?.trim() === "") {
-      throw new Error("Email is required for updating profile");
+    if (profileId === undefined || profileId == "") {
+      throw new Error("profile-id is required for updating profile");
     }
 
-    const profileCollectionRef = collection(dbInstance, "users");
-    const profileQuery = query(
-      profileCollectionRef,
-      where("email", "==", profile?.email)
-    );
+    const profileQuery = doc(dbInstance, "users", profileId);
 
     await updateDoc(profileQuery, { ...profile, updatedAt: serverTimestamp() });
   } catch (error) {
