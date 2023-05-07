@@ -6,6 +6,7 @@ export async function bookSlot(data) {
     const bookingCollectionRef = collection(dbInstance, "bookings");
     const bookedSlot = await addDoc(bookingCollectionRef, {
       ...data,
+      status: "pending-action",
       createdAt: serverTimestamp(),
       updatedAt: serverTimestamp(),
     });
