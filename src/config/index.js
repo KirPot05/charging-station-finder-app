@@ -12,4 +12,5 @@ export const FIREBASE_MESSAGING_SENDER_ID = import.meta.env
 
 export const FIREBASE_APP_ID = import.meta.env.VITE_FIREBASE_APP_ID;
 
-export const REVERSE_GEOCODING_API_KEY = "sHcd2FIHBt7i1CuODLoQeNwQGJO00LOI";
+export const REVERSE_GEOCODING_API_KEY = import.meta.env
+  .VITE_REVERSE_GEOCODING_API_KEY;
