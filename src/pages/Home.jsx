@@ -28,10 +28,10 @@ function Home() {
     try {
       const userLocation = await fetchUserLocation(coords, signal);
 
-      console.log(userLocation[0]);
       setLocation(userLocation[0].locations[0]);
     } catch (error) {
-      toast.error(error?.message || "Unable to fetch user location");
+      console.error(error);
+      // toast.error(error?.message || "Unable to fetch user location");
     }
   };
 
@@ -43,7 +43,9 @@ function Home() {
       navigator.geolocation.getCurrentPosition((location) => {
         if (location) {
           const { latitude, longitude } = location.coords;
-          handleUserLocation({ latitude, longitude }, signal);
+
+          if (latitude && longitude)
+            handleUserLocation({ latitude, longitude }, signal);
         }
       });
     }
