@@ -8,10 +8,13 @@ import { selectUser } from "../features/userSlice";
 import { dbInstance } from "../lib/firebase";
 import stations from "../mock/station";
 import StationCard from "../components/pages/home/StationCard";
+import { toast } from "react-hot-toast";
+import { fetchUserLocation } from "../services/location";
 
 function Home() {
   const [primaryVehicle, setPrimaryVehicle] = useState(null);
   const user = useSelector(selectUser);
+  const [location, setLocation] = useState(null);
 
   const [value, loading, error] = useCollectionDataOnce(
     query(
@@ -20,6 +23,35 @@ function Home() {
       where("primary", "==", true)
     )
   );
+
+  const handleUserLocation = async (coords, signal) => {
+    try {
+      const userLocation = await fetchUserLocation(coords, signal);
+
+      console.log(userLocation[0]);
+      setLocation(userLocation[0].locations[0]);
+    } catch (error) {
+      toast.error(error?.message || "Unable to fetch user location");
+    }
+  };
+
+  useEffect(() => {
+    const abortController = new AbortController();
+    const signal = abortController.signal;
+
+    if (navigator?.geolocation) {
+      navigator.geolocation.getCurrentPosition((location) => {
+        if (location) {
+          const { latitude, longitude } = location.coords;
+          handleUserLocation({ latitude, longitude }, signal);
+        }
+      });
+    }
+
+    return () => {
+      abortController.abort();
+    };
+  }, []);
 
   useEffect(() => {
     if (value?.length > 0) {
@@ -46,10 +78,17 @@ function Home() {
         </div>
 
         <div className="mt-6">
-          <p className="my-2">
-            {" "}
-            <span> Your location: </span> <span> Belagavi, Karnataka </span>
-          </p>
+          {location && (
+            <p className="my-2">
+              {" "}
+              <span> Your location: </span>{" "}
+              <span>
+                {" "}
+                {location?.street} - {location?.adminArea6},{" "}
+                {location?.adminArea5}{" "}
+              </span>
+            </p>
+          )}
 
           <img
             src={primaryVehicle?.imgUrl}
