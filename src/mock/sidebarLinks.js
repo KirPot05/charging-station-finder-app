@@ -22,31 +22,6 @@ export const mainLinks = [
     url: "/vehicles",
     icon: TruckIcon,
   },
-  //   {
-  //     title: "Discover",
-  //     url: "/discover",
-  //     icon: GlobeAltIcon,
-  //   },
-  //   {
-  //     title: "Users",
-  //     url: "/users",
-  //     icon: UsersIcon,
-  //   },
-  //   {
-  //     title: "Documents",
-  //     url: "/docs",
-  //     icon: BookOpenIcon,
-  //   },
-  //   {
-  //     title: "Applications",
-  //     url: "/apps",
-  //     icon: Squares2X2Icon,
-  //   },
-  //   {
-  //     title: "Pages",
-  //     url: "/pages",
-  //     icon: DocumentIcon,
-  //   },
 ];
 
 export const secondaryLinks = [
@@ -60,27 +35,6 @@ export const secondaryLinks = [
     url: "/vehicles/new",
     icon: PlusCircleIcon,
   },
-  //   {
-  //     title: "File Manager",
-  //     url: "/files",
-  //     icon: FolderOpenIcon,
-  //   },
-  //   {
-  //     title: "Data List",
-  //     url: "/data",
-  //     icon: ListBulletIcon,
-  //   },
 ];
 
-export const utilLinks = [
-  //   {
-  //     title: "Settings",
-  //     url: "/settings",
-  //     icon: Cog8ToothIcon,
-  //   },
-  //   {
-  //     title: "Log Out",
-  //     url: "/login",
-  //     icon: ArrowTopRightOnSquareIcon,
-  //   },
-];
+export const utilLinks = [];
