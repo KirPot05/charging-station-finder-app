@@ -1,4 +1,3 @@
-import React from "react";
 import AccountSettingsForm from "../components/pages/profile/AccountSettingsForm";
 import { PencilSquareIcon, TrashIcon } from "@heroicons/react/24/outline";
 

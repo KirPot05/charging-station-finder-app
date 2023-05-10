@@ -1,4 +1,3 @@
-import React from "react";
 import AddVehicleForm from "../components/pages/vehicles/AddVehicleForm";
 
 function VehicleAddForm() {

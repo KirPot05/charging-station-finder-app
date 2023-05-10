@@ -11,7 +11,6 @@ function BookingItem({ id, booking }) {
     <Link to={`/bookings/${id}`}>
       <div className="flex items-center space-x-4 my-4 py-2 px-4 hover:shadow-md">
         {/* Image */}
-        {console.log(vehicle)}
         <img
           src={
             vehicle?.imgUrl ||

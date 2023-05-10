@@ -3,7 +3,11 @@ const stations = [
     name: "HP Electrical Services",
     location: "Tilakwadi",
     slotsAvailable: 20,
-    slots: ["10AM-11AM", "11AM-12PM"],
+    slots: [
+      "ed53d094-19a0-4151-95e5-aa0f860d950b",
+      "1c2bdb50-1a67-4c40-8499-b9c01ace89b8",
+    ],
+    stationId: "",
     googleMapLink: "https://goo.gl/maps/Zs14WGrE9QamtuF48",
     imgUrl:
       "https://mc.webpcache.epapr.in/pro.php?size=large&in=https://mcmscache.epapr.in/post_images/website_326/post_29237731/full.jpg",
@@ -13,7 +17,11 @@ const stations = [
     name: "Bharat EVX",
     location: "Bogarves",
     slotsAvailable: 10,
-    slots: ["12PM-1PM", "4-5PM"],
+    slots: [
+      "b89a320e-2697-4277-a366-de8c0e75946a",
+      "e4af89c9-a0b5-4631-9431-757789acb13f",
+    ],
+    stationId: "",
     googleMapLink: "https://goo.gl/maps/Ety5X52AdS6rc5kC8",
     imgUrl:
       "https://fleely.com/wp-content/uploads/2021/08/how-to-open-electric-car-charging-station-in-India.jpg",
