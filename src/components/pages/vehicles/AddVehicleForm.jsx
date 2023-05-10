@@ -185,10 +185,11 @@ function AddVehicleForm() {
             >
               Company
             </label>
-            <div className="mt-2">
+            <div className="mt-2 w-full">
               <select
                 id="company"
                 name="company"
+                defaultValue="Tesla"
                 autoComplete="company"
                 value={vehicle?.company}
                 onChange={(e) => handleInput(e)}

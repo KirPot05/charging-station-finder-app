@@ -92,11 +92,17 @@ function Home() {
             </p>
           )}
 
-          <img
-            src={primaryVehicle?.imgUrl}
-            className="h-72 bg-contain rounded"
-            alt=""
-          />
+          {primaryVehicle?.imgUrl ? (
+            <img
+              src={primaryVehicle?.imgUrl}
+              className="h-72 bg-contain rounded"
+              alt=""
+            />
+          ) : (
+            <div className="h-40 flex items-center justify-center border-2 rounded">
+              No primary vehicle present
+            </div>
+          )}
         </div>
       </section>
 

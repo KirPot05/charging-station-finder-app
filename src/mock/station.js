@@ -2,7 +2,7 @@ const stations = [
   {
     name: "HP Electrical Services",
     location: "Tilakwadi",
-    slotsAvailable: 20,
+    slotsAvailable: 10,
     slots: [
       "ed53d094-19a0-4151-95e5-aa0f860d950b",
       "1c2bdb50-1a67-4c40-8499-b9c01ace89b8",

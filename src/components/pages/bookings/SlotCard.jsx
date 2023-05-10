@@ -1,17 +1,29 @@
 import { useEffect, useState } from "react";
+import { toast } from "react-hot-toast";
+import { fetchTimeSlots } from "../../../services/bookings";
 
 function SlotCard({
-  timing,
+  chargingSlotId,
   slotId,
   selectedSlotId,
   setSelectedSlotId,
   slots,
   isVehicleSelected,
+  setTimeSlots,
 }) {
   const [notAllowedSlot, setNotAllowedSlot] = useState(false);
 
-  const handleSlotSelection = () => {
-    if (!notAllowedSlot && isVehicleSelected) setSelectedSlotId(slotId);
+  const handleSlotSelection = async () => {
+    try {
+      if (notAllowedSlot || !isVehicleSelected) return;
+
+      const timeSlots = await fetchTimeSlots(chargingSlotId);
+
+      setSelectedSlotId(slotId);
+      setTimeSlots(timeSlots);
+    } catch (error) {
+      toast.error(error?.message);
+    }
   };
 
   useEffect(() => {
@@ -24,16 +36,16 @@ function SlotCard({
     <div
       className={`text-xs text-center font-semibold border-2 ${
         selectedSlotId === slotId
-          ? "border-indigo-500 text-indigo-500"
+          ? "bg-indigo-500 text-indigo-500"
           : "text-gray-600"
       } rounded-md p-3 min-w-[10rem] ${
-        notAllowedSlot
+        notAllowedSlot || !isVehicleSelected
           ? "cursor-not-allowed bg-gray-400 text-gray-300"
           : "cursor-pointer"
       } `}
       onClick={handleSlotSelection}
     >
-      {timing}{" "}
+      {`Slot ${slotId + 1}`}
     </div>
   );
 }

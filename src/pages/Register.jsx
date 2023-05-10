@@ -27,6 +27,7 @@ function Login() {
         saveUserCreds({
           displayName: user.displayName,
           email: user.email,
+          userId: user.uid,
           // photoUrl: user.photoURL,
         })
       );

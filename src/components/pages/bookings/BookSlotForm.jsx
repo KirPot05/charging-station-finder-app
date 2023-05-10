@@ -13,6 +13,8 @@ import { useSelector } from "react-redux";
 import { selectUser } from "../../../features/userSlice";
 import { useList } from "react-firebase-hooks/database";
 import { ref } from "firebase/database";
+import Calendar from "react-calendar";
+import "react-calendar/dist/Calendar.css";
 
 const initialState = {
   vehicleId: "",
@@ -43,6 +45,11 @@ function BookSlotForm() {
 
   const [vehicles, setVehicles] = useState([]);
   const [slots, setSlots] = useState([]);
+  const [timeSlots, setTimeSlots] = useState([]);
+  const [selectedTimeSlot, setSelectedTimeSlot] = useState();
+
+  const date = new Date();
+
   const [value, loading, error] = useCollectionOnce(
     query(
       collection(dbInstance, "vehicles"),
@@ -74,6 +81,7 @@ function BookSlotForm() {
     try {
       const bookingId = await bookSlot({
         ...booking,
+        timeSlot: timeSlots[selectedTimeSlot].timePeriod,
         station: stations[selectedStation].location,
         slot: stations[selectedStation].slots[selectedSlotId],
         vehicleId: selectedVehicle,
@@ -93,6 +101,21 @@ function BookSlotForm() {
       field: event.target.name,
       payload: event.target.value,
     });
+  };
+
+  const handleDate = (event) => {
+    let selectedDate = event.target.value.split("-")[2];
+
+    if (Math.abs(date.getDate() - parseInt(selectedDate)) > 1) {
+      event.target.value = `${date.getFullYear()}-${
+        date.getMonth() < 10 ? "0" + date.getMonth() : date.getMonth()
+      }-${date.getDate()}`;
+
+      toast.error("Select only for today and tomorrow date");
+      return;
+    }
+
+    handleInput(event);
   };
 
   if (error || errorRTDB) return <div>{JSON.stringify(error)}</div>;
@@ -133,6 +156,7 @@ function BookSlotForm() {
                 id="station"
                 name="station"
                 autoComplete="station"
+                disabled={selectedVehicle == null}
                 value={booking?.station}
                 onChange={(e) => {
                   handleInput(e);
@@ -142,7 +166,7 @@ function BookSlotForm() {
                     )
                   );
                 }}
-                className="block px-2 outline-none w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6 cursor-pointer"
+                className="block px-2 outline-none w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6 cursor-pointer disabled:bg-gray-400"
               >
                 {/* <option>TilakWadi</option>
                 <option>Bogarves</option> */}
@@ -166,9 +190,10 @@ function BookSlotForm() {
                 name="date"
                 type="date"
                 value={booking?.date}
-                onChange={handleInput}
+                onChange={handleDate}
                 autoComplete="date"
-                className="block px-2 outline-none w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6 cursor-pointer"
+                disabled={selectedVehicle == null}
+                className="block px-2 outline-none w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6 cursor-pointer  disabled:bg-gray-300 disabled:pointer-events-none"
               />
             </div>
           </div>
@@ -184,20 +209,21 @@ function BookSlotForm() {
             <div className="grid grid-cols-4 gap-4 p-2 border-2 border-gray-400  rounded-md">
               {stations[selectedStation].slots.map((slot, idx) => (
                 <SlotCard
-                  timing={slot}
+                  chargingSlotId={slot}
                   slotId={idx}
                   key={idx + 1}
                   selectedSlotId={selectedSlotId}
                   setSelectedSlotId={setSelectedSlotId}
                   slots={slots[selectedStation]}
                   isVehicleSelected={selectedVehicle !== null}
+                  setTimeSlots={setTimeSlots}
                 />
               ))}
 
               <div className="col-span-full flex items-center gap-x-8 mt-2 px-2">
                 <div className="flex items-center gap-x-2">
                   <div className="w-4 h-4 bg-gray-400"></div>
-                  <span className="text-sm">Not available</span>
+                  <span className="text-sm">Not allowed</span>
                 </div>
 
                 <div className="flex items-center gap-x-2">
@@ -210,6 +236,31 @@ function BookSlotForm() {
                   <span className="text-sm">Selected</span>
                 </div>
               </div>
+            </div>
+
+            <div className="grid grid-cols-4 gap-4 p-2 border-2 border-gray-400  rounded-md">
+              {timeSlots.length > 0 &&
+                timeSlots.map((timeSlot, idx) => (
+                  <div
+                    onClick={() => {
+                      setSelectedTimeSlot(idx);
+                    }}
+                  >
+                    <div
+                      className={`text-xs text-center font-semibold border-2 ${
+                        selectedTimeSlot === idx
+                          ? "border-indigo-500 text-indigo-500"
+                          : "text-gray-600"
+                      } rounded-md p-3 min-w-[10rem] ${
+                        !timeSlot?.isAvailable
+                          ? "cursor-not-allowed bg-gray-400 text-gray-300"
+                          : "cursor-pointer"
+                      }`}
+                    >
+                      {timeSlot?.timePeriod}
+                    </div>
+                  </div>
+                ))}
             </div>
           </div>
         </div>
