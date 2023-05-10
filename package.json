@@ -13,7 +13,6 @@
     "@headlessui/react": "^1.7.14",
     "@heroicons/react": "^2.0.17",
     "@reduxjs/toolkit": "^1.9.5",
-    "@syncfusion/ej2-react-calendars": "^21.2.4",
     "firebase": "^9.20.0",
     "react": "^18.2.0",
     "react-calendar": "^4.2.1",
