@@ -1,9 +1,11 @@
 import { useEffect, useReducer, useState } from "react";
 import DynamicInput from "../../global/DynamicInput";
-import FormEditButton from "../../global/FormEditButton";
 import CustomButton from "../../global/CustomButton";
 import { toast } from "react-hot-toast";
+import { PhotoIcon } from "@heroicons/react/24/outline";
+import FormEditButton from "../../../components/global/FormEditButton";
 import { updateVehicle } from "../../../services/vehicles";
+import { handleImageUpload } from "../../../services";
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -35,6 +37,11 @@ function VehicleForm({ vehicle, id }) {
   };
 
   const [editGeneralDetails, setEditGeneralDetails] = useState(false);
+  const [vehicleImg, setVehicleImg] = useState(null);
+  const [imgUrl, setImgUrl] = useState("");
+  const [percentageUploadCompleted, setPercentageUploadCompleted] = useState(0);
+
+  const [editPhoto, setEditPhoto] = useState(false);
   const [editRegistrationDetails, setEditRegistrationDetails] = useState(false);
   const [state, dispatch] = useReducer(reducer, initialState);
 
@@ -64,6 +71,7 @@ function VehicleForm({ vehicle, id }) {
   const handleUpdateFields = async (event) => {
     event.preventDefault();
     try {
+      console.log("submitting", state);
       await updateVehicle(state);
 
       toast.success("Successfully updated fields");
@@ -82,8 +90,82 @@ function VehicleForm({ vehicle, id }) {
     });
   };
 
+  const handleImagePreview = async (e) => {
+    const localImageUrl = URL.createObjectURL(e.target.files[0]);
+    setVehicleImg(localImageUrl);
+    try {
+      await handleImageUpload(
+        e.target.files[0],
+        setPercentageUploadCompleted,
+        setImgUrl
+      );
+
+      dispatch({
+        type: "HANDLE_TEXT_INPUT",
+        field: "imgUrl",
+        payload: imgUrl,
+      });
+
+      console.log(state);
+    } catch (error) {
+      toast.error(error?.message || "Something went wrong");
+    }
+  };
+
   return (
     <form onSubmit={handleUpdateFields}>
+      <div className="col-span-full">
+        <label
+          htmlFor="cover-photo"
+          className="block text-sm font-medium leading-6 text-gray-900"
+        >
+          Cover photo
+        </label>
+        <div className="flex items-center flex-col">
+          <img src={vehicle?.imgUrl} alt="Vehicle" className="h-72" />
+          <div>
+            <div className="mt-4 flex text-sm leading-6 text-gray-600">
+              <label
+                htmlFor="file-upload"
+                className="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
+              >
+                <span>Change Image</span>
+                <input
+                  id="file-upload"
+                  name="file-upload"
+                  type="file"
+                  className="sr-only"
+                  accept="image/*"
+                  onChange={handleImagePreview}
+                />
+              </label>
+              <p className="pl-1">or drag and drop</p>
+            </div>
+            <p className="text-xs leading-5 text-gray-600">
+              PNG, JPG, GIF up to 10MB
+            </p>
+          </div>
+        </div>
+
+        {/* Progress bar */}
+        <div>
+          <div className="flex justify-between mb-1">
+            <span className="text-base font-medium text-blue-700 ">
+              Upload Progress
+            </span>
+            <span className="text-sm font-medium text-blue-700 ">
+              {percentageUploadCompleted}%
+            </span>
+          </div>
+          <div className="w-full bg-gray-200 rounded-full h-2.5 ">
+            <div
+              className="bg-blue-600 h-2.5 rounded-full"
+              style={{ width: percentageUploadCompleted + "%" }}
+            ></div>
+          </div>
+        </div>
+      </div>
+
       <div className="border-b border-gray-900/10 pb-12">
         <div className="flex items-center justify-between">
           <h2 className="text-base font-semibold leading-7 text-gray-900">
@@ -178,7 +260,9 @@ function VehicleForm({ vehicle, id }) {
         </button>
         <CustomButton
           btnText="Update"
-          isDisabled={!(editGeneralDetails || editRegistrationDetails)}
+          isDisabled={
+            !(editGeneralDetails || editRegistrationDetails || !editPhoto)
+          }
         />
       </div>
     </form>

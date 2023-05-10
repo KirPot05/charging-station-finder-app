@@ -13,8 +13,6 @@ import { useSelector } from "react-redux";
 import { selectUser } from "../../../features/userSlice";
 import { useList } from "react-firebase-hooks/database";
 import { ref } from "firebase/database";
-import Calendar from "react-calendar";
-import "react-calendar/dist/Calendar.css";
 
 const initialState = {
   vehicleId: "",

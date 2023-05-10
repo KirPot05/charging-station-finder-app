@@ -99,13 +99,14 @@ function Vehicles() {
       </div>
 
       <section className="grid grid-cols-3 gap-6 mt-8">
-        {vehicles.map(({ VIN, model, company, imgUrl, vehicleId }) => (
+        {vehicles.map(({ VIN, model, company, imgUrl, vehicleId, primary }) => (
           <VehicleDetailsCard
             key={VIN}
             vehicleId={vehicleId}
             model={model}
             company={company}
             imgUrl={imgUrl}
+            isPrimary={primary}
           />
         ))}
       </section>

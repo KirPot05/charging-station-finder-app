@@ -1,9 +1,9 @@
 import { PencilSquareIcon } from "@heroicons/react/24/solid";
 
-function FormEditButton({ isDisabled, handleAction }) {
+function FormEditButton({ isDisabled, handleAction, className }) {
   return (
     <button
-      className="flex items-center justify-center gap-x-2 border-2 border-gray-400 rounded-full px-4 py-2 disabled:bg-gray-300 disabled:cursor-not-allowed"
+      className={`flex items-center justify-center gap-x-2 border-2 border-gray-400 rounded-full px-4 py-2 disabled:bg-gray-300 disabled:cursor-not-allowed ${className}`}
       disabled={isDisabled}
       onClick={handleAction}
     >
