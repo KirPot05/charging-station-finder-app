@@ -16,8 +16,24 @@ import {
   PhoneIcon as SolidPhone,
 } from "@heroicons/react/24/solid";
 import DetailsItem from "../components/pages/bookings/DetailsItem";
+import { useBookings } from "../hooks/bookings";
+import { useParams } from "react-router-dom";
+import stations from "../mock/station";
+import { useSelector } from "react-redux";
+import { selectUser } from "../features/userSlice";
 
 function BookingPage() {
+  const { id } = useParams();
+  const user = useSelector(selectUser);
+
+  const [booking, loading, error] = useBookings(id);
+  const agency = stations.find(
+    (stations) => stations.location === booking?.station
+  );
+
+  if (error) return <div>{JSON.stringify(error)}</div>;
+  if (loading) return <div>Loading...</div>;
+
   return (
     <main className="m-6 bg-white py-6 px-20 shadow-md">
       <h4 className="font-semibold">Booking Details</h4>
@@ -47,25 +63,25 @@ function BookingPage() {
             <DetailsItem
               icon={ArchiveBoxIcon}
               title="Agency"
-              value="Junot Paris"
+              value={agency?.name}
             />
 
             <DetailsItem
               icon={PhoneIcon}
               title="Telephone"
-              value="903 548 4583"
+              value={agency?.phoneNumber}
             />
 
             <DetailsItem
               icon={EnvelopeIcon}
               title="Email"
-              value="test@email.com"
+              value={agency?.email}
             />
 
             <DetailsItem
               icon={MapPinIcon}
               title="Address"
-              value="Test address"
+              value={agency?.address}
             />
 
             {/* your contact */}
@@ -78,18 +94,31 @@ function BookingPage() {
               <div className="col-span-2">
                 <div className="bg-purple-100 flex items-center gap-x-2 w-3/4 ml-4 p-2 rounded-full">
                   <UserCircleIcon className="h-6 w-6" />
-                  <span className="text-purple-800"> John Doestdas </span>
+                  <span className="text-purple-800">
+                    {" "}
+                    {user?.displayName || "Test User"}{" "}
+                  </span>
                 </div>
               </div>
 
               {/* Buttons */}
               <div className="flex items-center gap-x-3">
-                <button className="px-3 py-1 flex items-center gap-x-2 text-gray-500 font-semibold border-2 border-gray-400 rounded">
+                <a
+                  className="px-3 py-1 flex items-center gap-x-2 text-gray-500 font-semibold border-2 border-gray-400 rounded"
+                  href={`mailto:${agency?.email}`}
+                >
                   <SolidEnvelope className="h-4 w-4" />
-                  Email
-                </button>
+                  <span> Email </span>
+                </a>
 
-                <button className="px-3 py-1 flex items-center gap-x-2 text-gray-500 font-semibold border-2 border-gray-400 rounded">
+                <button
+                  onClick={() =>
+                    window?.open(
+                      `tel:${agency?.phoneNumber.split("-").join("")}`
+                    )
+                  }
+                  className="px-3 py-1 flex items-center gap-x-2 text-gray-500 font-semibold border-2 border-gray-400 rounded"
+                >
                   <SolidPhone className="h-4 w-4" />
                   Call
                 </button>
