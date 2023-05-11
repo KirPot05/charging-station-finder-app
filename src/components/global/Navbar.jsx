@@ -5,9 +5,13 @@ import {
   BellIcon,
   ChevronDownIcon,
 } from "@heroicons/react/24/outline";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { selectUser } from "../../features/userSlice";
 
 function Navbar() {
+  const user = useSelector(selectUser);
+
   return (
     <nav className="bg-white p-4 shadow-md flex items-center justify-between sticky top-0 z-10">
       {/* Search bar */}
@@ -29,12 +33,17 @@ function Navbar() {
         <BellIcon className="h-6 w-6 cursor-pointer" />
         <div className="flex items-center space-x-2">
           <div className="text-center text-sm">
-            <p className="text-black font-semibold">Thomas Brown</p>
+            <p className="text-black font-semibold">
+              {user?.displayName || "Thomas Brown"}
+            </p>
             <p>Developer</p>
           </div>
           <img
             className="h-12 w-12 rounded-full"
-            src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8Mnx8fGVufDB8fHx8&w=1000&q=80"
+            src={
+              user?.photoUrl ||
+              "https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8Mnx8fGVufDB8fHx8&w=1000&q=80"
+            }
             alt=""
           />
           <ChevronDownIcon className="h-4 w-4 font-bold cursor-pointer" />
