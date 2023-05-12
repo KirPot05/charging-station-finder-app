@@ -3,6 +3,7 @@ import {
   signInWithEmailAndPassword,
   signInWithPopup,
   signOut,
+  updateProfile,
 } from "firebase/auth";
 import { auth, dbInstance, googleAuthProvider } from "../lib/firebase";
 import {
@@ -47,6 +48,11 @@ export async function signUp(email, password, displayName) {
       password
     );
 
+    await updateProfile(auth.currentUser, {
+      displayName,
+    });
+
+    console.log(user?.displayName);
     addDoc(collection(dbInstance, "users"), {
       uid: user.uid,
       name: displayName,

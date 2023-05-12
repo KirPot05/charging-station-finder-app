@@ -2,7 +2,7 @@ import EmptyCaseContainer from "../components/global/EmptyCaseContainer";
 import VehicleDetailsCard from "../components/pages/vehicles/VehicleDetailsCard";
 import { PlusIcon } from "@heroicons/react/24/solid";
 import { Link } from "react-router-dom";
-import { useCollectionOnce } from "react-firebase-hooks/firestore";
+import { useCollection } from "react-firebase-hooks/firestore";
 import { collection, query, where } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { dbInstance } from "../lib/firebase";
@@ -63,7 +63,7 @@ function Vehicles() {
 
   const user = useSelector(selectUser);
   const [vehicles, setVehicles] = useState([]);
-  const [value, loading, error] = useCollectionOnce(
+  const [value, loading, error] = useCollection(
     query(
       collection(dbInstance, "vehicles"),
       where("userId", "==", user?.userId)
@@ -107,6 +107,7 @@ function Vehicles() {
             company={company}
             imgUrl={imgUrl}
             isPrimary={primary}
+            userId={user?.userId}
           />
         ))}
       </section>

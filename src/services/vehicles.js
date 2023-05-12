@@ -59,7 +59,7 @@ export async function updateVehicle(vehicle) {
 export async function assignPrimaryVehicle(userId, vehicleId) {
   try {
     const vehicleQuery = query(
-      collection("vehicles"),
+      collection(dbInstance, "vehicles"),
       where("userId", "==", userId)
     );
 
